@@ -81,6 +81,7 @@ input {
   background-color: #5a3e2b;
   color: #ffebb3;
   padding: 4rem 0;
+
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -130,20 +131,9 @@ input[type="checkbox"] {
   transform: translateY(2px);
 }
 
-/* .stats {
+.stats {
   background-color: #76c7ad;
   text-align: center;
   font-weight: 700;
   padding: 3.2rem 0;
-} */
-
-.stats {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #76c7ad;
-  color: #fff;
-  font-weight: 700;
-  padding: 1.6rem 0;
-  text-align: center;
 }
