@@ -9,15 +9,18 @@ const initialItems = [
 ];
 
 export default function App() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(initialItems);
   function handleItems(item) {
     setItems((items) => [...items, item]);
+  }
+  function handleDelete(id) {
+    setItems((items) => items.filter((item) => item.id !== id));
   }
   return (
     <div>
       <Logo />
       <Form onAddItems={handleItems} />
-      <PackingList items={items} />
+      <PackingList items={items} onDeleteItem={handleDelete} />
       <Stats />
     </div>
   );
@@ -65,25 +68,28 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items }) {
+function PackingList({ items, onDeleteItem }) {
   return (
     <div className="list">
       <ul>
         {items.map((item) => (
-          <Item item={item} key={item.id} />
+          <Item item={item} key={item.id} onDelete={onDeleteItem} />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item }) {
+function Item({ item, onDelete }) {
   return (
     <li>
-      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
-        {item.quantity} {item.description}
-      </span>
-      <button>❌</button>
+      <div>
+        <input type="checkbox" />
+        <span style={item.packed ? { textDecoration: "line-through" } : {}}>
+          {item.quantity} {item.description}
+        </span>
+        <button onclick={() => onDelete((item) => item.id)}>❌</button>
+      </div>
     </li>
   );
 }
