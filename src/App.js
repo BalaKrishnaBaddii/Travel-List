@@ -13,14 +13,27 @@ export default function App() {
   function handleItems(item) {
     setItems((items) => [...items, item]);
   }
-  function handleDelete(id) {
+  function handleDeleteItems(id) {
+    console.log(id);
     setItems((items) => items.filter((item) => item.id !== id));
+  }
+
+  function handleCheckBox(id) {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
   }
   return (
     <div>
       <Logo />
       <Form onAddItems={handleItems} />
-      <PackingList items={items} onDeleteItem={handleDelete} />
+      <PackingList
+        items={items}
+        onDeleteItems={handleDeleteItems}
+        onCheckItem={handleCheckBox}
+      />
       <Stats />
     </div>
   );
@@ -68,28 +81,35 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items, onDeleteItem }) {
+function PackingList({ items, onDeleteItems, onCheckItem }) {
   return (
     <div className="list">
       <ul>
         {items.map((item) => (
-          <Item item={item} key={item.id} onDelete={onDeleteItem} />
+          <Item
+            key={item.id}
+            item={item}
+            onDeleteItems={onDeleteItems}
+            onCheckItem={onCheckItem}
+          />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item, onDelete }) {
+function Item({ key, item, onDeleteItems, onCheckItem }) {
   return (
     <li>
-      <div>
-        <input type="checkbox" />
-        <span style={item.packed ? { textDecoration: "line-through" } : {}}>
-          {item.quantity} {item.description}
-        </span>
-        <button onclick={() => onDelete((item) => item.id)}>❌</button>
-      </div>
+      <input
+        type="checkbox"
+        checked={item.packed}
+        onClick={(e) => onCheckItem(item.id)}
+      />
+      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
+        {item.quantity} {item.description}
+      </span>
+      <button onClick={() => onDeleteItems(item.id)}>❌</button>
     </li>
   );
 }
