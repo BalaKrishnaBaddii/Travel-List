@@ -10,7 +10,6 @@ const initialItems = [
 
 export default function App() {
   const [items, setItems] = useState(initialItems);
-  const [items, setItems] = useState(initialItems);
   function handleItems(item) {
     setItems((items) => [...items, item]);
   }
